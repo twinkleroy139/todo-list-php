@@ -1,0 +1,7 @@
+# Ignore config with passwords
+config/db.php
+
+# Ignore temp files
+*.log
+.DS_Store
+Thumbs.db
