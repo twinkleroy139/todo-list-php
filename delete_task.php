@@ -9,15 +9,15 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $user_id = get_current_user_id();
 
 if ($id > 0) {
-    // Update the task status, verifying ownership first
-    $stmt = $conn->prepare("UPDATE tasks SET status = 'done' WHERE id = ? AND user_id = ?");
+    // We strictly check user_id so users can only delete their own tasks
+    $stmt = $conn->prepare("DELETE FROM tasks WHERE id = ? AND user_id = ?");
     $stmt->bind_param("ii", $id, $user_id);
     
     $stmt->execute();
     $stmt->close();
 }
 
-// Head back to the main list
+// Send them right back to the To-Do list
 header("Location: index.php");
 exit();
 ?>

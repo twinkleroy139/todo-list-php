@@ -9,16 +9,16 @@ $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $user_id = get_current_user_id();
 
 if ($id > 0) {
-    // Update the task status, verifying ownership first
-    $stmt = $conn->prepare("UPDATE tasks SET status = 'done' WHERE id = ? AND user_id = ?");
+    // Only delete if the note belongs to the currently logged-in user
+    $stmt = $conn->prepare("DELETE FROM notepad WHERE id = ? AND user_id = ?");
     $stmt->bind_param("ii", $id, $user_id);
     
     $stmt->execute();
     $stmt->close();
 }
 
-// Head back to the main list
-header("Location: index.php");
+// Send them right back to the Notepad
+header("Location: notepad.php");
 exit();
 ?>
 
